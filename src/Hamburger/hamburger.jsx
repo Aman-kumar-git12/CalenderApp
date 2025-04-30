@@ -27,7 +27,7 @@ const SidebarMenu = () => {
         <a href="#"><NoteAddIcon /> New Notes</a>
         <a href="#"><SaveIcon /> Saved</a>
         <a href="#"><SettingsIcon /> Settings</a>
-        <a href="#"><LogoutIcon /> Logout</a>
+        <a href="#"><LogoutIcon />Logout</a>
       </div>
 
       {open && <div className="overlay" onClick={toggleSidebar}></div>}
