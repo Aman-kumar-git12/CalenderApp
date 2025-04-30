@@ -1,13 +1,20 @@
 import './App.css'
 import Save from './Buttons/Save/save'
-import Navbar from './Notes/notes'
+import HamburgerMenu from './Hamburger/hamburger'
+import Navbar from './Navbar/nav'
+import Notes from './Notes/notes'
+import ToggleButtonsMultiple from './Textstyle/textstyle'
 
 function App() {
 
   return (
     <>
-      <Navbar/>
-      <Save/>
+    <Navbar/>
+      <Notes/>
+
+     
+      
+
     </>
   )
 }

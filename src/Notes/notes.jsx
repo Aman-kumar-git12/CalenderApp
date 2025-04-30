@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import './notes.css';
 import Save from '../Buttons/Save/save';
 import Clear from '../Buttons/Clear/clear';
+import ToggleButtonsMultiple from '../Textstyle/textstyle';
+import HamburgerMenu from '../Hamburger/hamburger';
 
 const Notes = () => {
   const [notes, setnotes] = useState("");

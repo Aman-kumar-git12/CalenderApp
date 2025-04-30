@@ -1,0 +1,66 @@
+/* Top bar styling */
+.top-bar1 {
+    height: 30px;
+    background-color: white;
+    padding: 10px 0px;
+    display: flex;
+    align-items: center;
+  }
+  .top-bar2{
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+
+  }
+  
+  .menu-icon {
+    color: #1e1e1e;
+    cursor: pointer;
+    font-size: 28px;
+  }
+  
+  /* Sidebar drawer */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 230px;
+    height: 100%;
+    background-color: white;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+    padding-top: 10px;
+    transition: left 0.3s ease-out;
+    z-index: 1001;
+  }
+  
+  .sidebar.open {
+    left: 0;
+  }
+  
+  /* Sidebar links */
+  .sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #1e1e1e;
+    font-size: 16px;
+    gap: 10px;
+    transition: background 0.2s;
+  }
+  
+  .sidebar a:hover {
+    background-color: #e0ecff;
+    color: #1e3a8a;
+  }
+  
+  /* Overlay for closing */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+  

@@ -1,0 +1,41 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-bottom: 2px solid #ddd;
+    padding: 8px 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .nav-icon {
+    color: #1e1e1e;
+    cursor: pointer;
+  }
+  
+  .btn {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .save-btn {
+    background-color: #2563eb; /* Blue */
+    color: white;
+  }
+  
+  .clear-btn {
+    background-color: #f1f5f9; /* Light gray */
+    color: #1e293b; /* Dark gray */
+  }
+  
