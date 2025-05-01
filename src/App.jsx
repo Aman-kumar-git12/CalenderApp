@@ -1,22 +1,18 @@
 import './App.css'
+import Heart from './Buttons/Heart/heart'
 import Save from './Buttons/Save/save'
 import HamburgerMenu from './Hamburger/hamburger'
 import Navbar from './Navbar/nav'
 import Notes from './Notes/notes'
-import ToggleButtonsMultiple from './Textstyle/textstyle'
+
 
 function App() {
 
   return (
     <>
     <Navbar/>
-      <Notes/>
-
-     
-      
-
+    <Notes/>
     </>
   )
 }
-
 export default App
