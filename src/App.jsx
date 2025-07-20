@@ -1,18 +1,48 @@
-import './App.css'
-import Heart from './Buttons/Heart/heart'
-import Save from './Buttons/Save/save'
-import HamburgerMenu from './Hamburger/hamburger'
-import Navbar from './Navbar/nav'
-import Notes from './Notes/notes'
+import './App.css';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+} from 'react-router-dom';
 
+import Navbar from './Navbar/nav';
+import Notes from './Notes/notes';
+import SavedDocuments from './Saved/saved';
+import NotesLibrary from './Library/library';
 
-function App() {
+const Layout = () => {
+  const [dark, setDark] = React.useState(
+    () => localStorage.getItem('theme') === 'dark'
+  );
+
+  React.useEffect(() => {
+    document.body.className = dark ? 'dark' : 'light';
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  }, [dark]);
 
   return (
     <>
-    <Navbar/>
-    <Notes/>
+      <Navbar dark={dark} setDark={setDark}/>
+      <Outlet />
     </>
-  )
-}
-export default App
+  );
+};
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      { path: '/', element: <Notes /> },
+      { path: '/saved', element: <SavedDocuments /> },
+      { path: '/library', element: <NotesLibrary /> }
+    ]
+  }
+]);
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<RouterProvider router={router} />);
+
+export default Layout;

@@ -1,35 +1,77 @@
 import React, { useRef, useState } from 'react';
-import './notes.css';
-import Save from '../Buttons/Save/save';
-import Clear from '../Buttons/Clear/clear';
-import ToggleButtonsMultiple from '../Textstyle/textstyle';
-import HamburgerMenu from '../Hamburger/hamburger';
+// Import your Supabase client
+import { supabase } from '../supabaseClient'; // adjust path as needed
+import Clear from '../Buttons/Clear/clear';   // still using your Clear button
 
 const Notes = () => {
-  const [notes, setnotes] = useState("");
+  const [title, setTitle] = useState("");
+  const [notes, setNotes] = useState("");
+  const [saving, setSaving] = useState(false);
   const textareaRef = useRef(null);
 
-  function ischange() {
-    setnotes(textareaRef.current.value);
-  }
+  const handleTitleChange = (e) => setTitle(e.target.value);
+  const handleChange = () => setNotes(textareaRef.current.value);
 
-  function clear() {
-    setnotes("");
+  const handleClear = () => {
+    setNotes("");
+    setTitle("");
     textareaRef.current.value = "";
-  }
+  };
+
+  // All save logic is here:
+  const handleSave = async () => {
+    if (!notes.trim() && !title.trim()) {
+      alert("Enter a title or a note to save.");
+      return;
+    }
+    setSaving(true);
+    const { error } = await supabase
+      .from('notes')
+      .insert([
+        {
+          title: title.trim() || null,
+          content: notes.trim()
+          // id and created_at are automatic
+        }
+      ]);
+    setSaving(false);
+    if (error) {
+      alert("Error saving note: " + error.message);
+    } else {
+      alert("Note saved!");
+      handleClear();
+    }
+  };
 
   return (
-    <div className="notes-container">
-      <textarea
-        ref={textareaRef}
-        placeholder="Start typing your notes here..."
-        className="notes-textarea"
-        onChange={ischange}
-        value={notes}
-      />
-      <div className="notes-controls">
-        <Save />
-        <Clear clear={clear} />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-10 px-4 flex justify-center items-start">
+      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-6">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">📝 Your Notes</h2>
+        <input
+          type="text"
+          value={title}
+          onChange={handleTitleChange}
+          placeholder="Enter a title..."
+          className="w-full mb-3 p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700 text-lg"
+        />
+        <textarea
+          ref={textareaRef}
+          placeholder="Start typing your notes here..."
+          className="w-full h-100 p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none text-gray-700 text-base"
+          onChange={handleChange}
+          value={notes}
+        />
+        <div className="mt-4 flex justify-between items-center flex-wrap gap-4">
+          <button
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 active:bg-blue-700 focus:outline-none font-semibold transition"
+            onClick={handleSave}
+            disabled={saving}
+            type="button"
+          >
+            {saving ? "Saving..." : "Save"}
+          </button>
+          <Clear clear={handleClear} />
+        </div>
       </div>
     </div>
   );

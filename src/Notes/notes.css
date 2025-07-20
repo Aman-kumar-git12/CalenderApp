@@ -1,4 +1,4 @@
-.notes-container {
+/* .notes-container {
     padding: 40px;
     display: flex;
     flex-direction: column;
@@ -12,16 +12,16 @@
     font-size: 18px;
     border: 1px solid #ddd;
     /* border-radius: 12px; */
-    background-color: white;
+    /* background-color: white;
     resize: none;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     overflow-y: hidden; /* Hide scroll initially */
-  }
+  /* }
   .notes-controls {
     padding: 2px;
     height: auto;
     width: 70%;
     display: flex;
     justify-content: flex-end; /* aligns buttons to the right */
-    gap: 5px;
-  }
+    /* gap: 5px;
+  } */
