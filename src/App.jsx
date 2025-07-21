@@ -11,6 +11,9 @@ import Navbar from './Navbar/nav';
 import Notes from './Notes/notes';
 import SavedDocuments from './Saved/saved';
 import NotesLibrary from './Library/library';
+import Favourite from './Favourite/Favourite';
+
+
 
 const Layout = () => {
   const [dark, setDark] = React.useState(
@@ -37,7 +40,9 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <Notes /> },
       { path: '/saved', element: <SavedDocuments /> },
-      { path: '/library', element: <NotesLibrary /> }
+      { path: '/library', element: <NotesLibrary /> },
+      { path: '/favourite',element:<Favourite/> }
+
     ]
   }
 ]);

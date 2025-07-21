@@ -44,7 +44,7 @@ const Notes = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-10 px-4 flex justify-center items-start">
+    <div className="notes-wrapper min-h-screen py-10 px-4 flex justify-center items-start">
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-6">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">📝 Your Notes</h2>
         <input

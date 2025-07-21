@@ -7,6 +7,8 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import LogoutIcon from "@mui/icons-material/Logout";
 import "./hamburger.css";
 import { Link } from "react-router-dom";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const SidebarMenu = () => {
   const [open, setOpen] = useState(false);
@@ -29,7 +31,7 @@ const SidebarMenu = () => {
         <Link to="/"><NoteAddIcon /> New Notes</Link>
         <Link to="/saved"><SaveIcon /> Saved</Link>
         <Link to="/library"><LibraryBooksIcon /> Library</Link>
-        <Link to="logout"><LogoutIcon /> Logout</Link>
+        <Link to="/favourite"><FavoriteIcon /> Favourite</Link>
       </div>
 
       {open && <div className="overlay" onClick={toggleSidebar}></div>}

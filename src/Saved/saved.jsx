@@ -7,14 +7,14 @@ const ViewModal = ({ isOpen, onClose, note }) => {
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center">
-      <div className="bg-white rounded-xl p-8 shadow-2xl max-w-lg w-full relative">
+      <div className="bg-white dark:bg-[#1e1e28] text-gray-800 dark:text-white rounded-xl p-8 shadow-2xl max-w-lg w-full relative transition">
         <button
-          className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl"
+          className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 dark:hover:text-white text-2xl"
           onClick={onClose}
           aria-label="Close"
         >&times;</button>
-        <h2 className="text-2xl font-bold mb-4 break-words text-blue-700 border-b pb-2">{note.title || <span className="italic text-gray-400">[Untitled]</span>}</h2>
-        <div className="text-lg text-gray-700 whitespace-pre-line break-words mb-4">{note.content}</div>
+        <h2 className="text-2xl font-bold mb-4 break-words text-blue-700 border-b pb-2 dark:text-blue-400">{note.title || <span className="italic text-gray-400">[Untitled]</span>}</h2>
+        <div className="text-lg text-gray-700 dark:text-gray-200 whitespace-pre-line break-words mb-4">{note.content}</div>
         <div className="text-xs text-gray-400 text-right">Created at: {note.created_at}</div>
       </div>
     </div>
@@ -25,7 +25,7 @@ const EditModal = ({ isOpen, onClose, note, onUpdate, updating }) => {
   const [title, setTitle] = useState(note.title || "");
   const [content, setContent] = useState(note.content || "");
 
-  // Anytime the note changes (i.e., you open for another note), update state
+  // Update state when a new note is passed
   useEffect(() => {
     setTitle(note.title || "");
     setContent(note.content || "");
@@ -34,30 +34,30 @@ const EditModal = ({ isOpen, onClose, note, onUpdate, updating }) => {
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
-      <div className="bg-white rounded-xl p-8 shadow-2xl max-w-lg w-full relative">
+      <div className="bg-white dark:bg-[#1e1e28] text-gray-800 dark:text-white rounded-xl p-8 shadow-2xl max-w-lg w-full relative transition">
         <button
-          className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl"
+          className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 dark:hover:text-white text-2xl"
           onClick={onClose}
           aria-label="Close"
         >&times;</button>
-        <h2 className="text-xl font-semibold mb-4 text-blue-700">Edit Note</h2>
-        <label className="block mb-2 text-sm font-medium text-gray-700">Title</label>
+        <h2 className="text-xl font-semibold mb-4 text-blue-700 dark:text-blue-400">Edit Note</h2>
+        <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Title</label>
         <input
-          className="w-full p-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-2 mb-4 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-[#2a2a32] dark:text-white"
           value={title}
           onChange={e => setTitle(e.target.value)}
           placeholder="Enter title"
         />
-        <label className="block mb-2 text-sm font-medium text-gray-700">Content</label>
+        <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Content</label>
         <textarea
-          className="w-full p-2 h-28 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4 resize-none"
+          className="w-full p-2 h-28 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4 resize-none dark:bg-[#2a2a32] dark:text-white"
           value={content}
           onChange={e => setContent(e.target.value)}
           placeholder="Enter note content"
         />
         <div className="flex justify-end space-x-3">
           <button
-            className="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
+            className="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500"
             onClick={onClose}
             disabled={updating}
           >Cancel</button>
@@ -72,21 +72,19 @@ const EditModal = ({ isOpen, onClose, note, onUpdate, updating }) => {
   );
 };
 
-// --------- MAIN COMPONENT --------- //
+// ----------- MAIN COMPONENT ----------- //
 
 const SavedNotes = () => {
   const [notesList, setNotesList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState(null);
 
-  // Modal state
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [viewNote, setViewNote] = useState({});
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editNote, setEditNote] = useState({});
   const [updating, setUpdating] = useState(false);
 
-  // Fetch notes from Supabase (list refresh)
   const fetchNotes = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -106,19 +104,16 @@ const SavedNotes = () => {
     fetchNotes();
   }, []);
 
-  // View modal
   const handleView = (note) => {
     setViewNote(note);
     setViewModalOpen(true);
   };
 
-  // Edit modal
   const handleEdit = (note) => {
     setEditNote(note);
     setEditModalOpen(true);
   };
 
-  // Update note in Supabase
   const handleUpdate = async (title, content) => {
     setUpdating(true);
     const { error } = await supabase
@@ -134,7 +129,6 @@ const SavedNotes = () => {
     }
   };
 
-  // Delete
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this note?")) return;
     setDeletingId(id);
@@ -151,61 +145,69 @@ const SavedNotes = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow p-6">
-      {/* VIEW MODAL */}
-      <ViewModal
-        isOpen={viewModalOpen}
-        onClose={() => setViewModalOpen(false)}
-        note={viewNote}
-      />
-      {/* EDIT MODAL */}
-      <EditModal
-        isOpen={editModalOpen}
-        onClose={() => setEditModalOpen(false)}
-        note={editNote}
-        onUpdate={handleUpdate}
-        updating={updating}
-      />
+    <div className="section-wrapper py-10 px-4 flex justify-center items-start min-h-screen">
+      <div className="w-full max-w-4xl saved-card bg-white  rounded-2xl shadow p-8 transition">
+        {/* VIEW MODAL */}
+        <ViewModal
+          isOpen={viewModalOpen}
+          onClose={() => setViewModalOpen(false)}
+          note={viewNote}
+        />
 
-      <h3 className="text-2xl font-bold mb-4 text-blue-800 tracking-tight flex items-center gap-2">📚 Saved Notes</h3>
-      {loading && <div className="my-4 text-blue-400">Loading...</div>}
-      {!loading && notesList.length === 0 && (
-        <div className="text-gray-400 italic my-6">No notes found.</div>
-      )}
-      {!loading && notesList.length > 0 &&
-        <ul className="divide-y divide-gray-200">
-          {notesList.map(note => (
-            <li
-              key={note.id}
-              className="flex flex-col sm:flex-row sm:items-center justify-between py-4"
-            >
-              <div className="flex-1">
-                <div className="font-semibold text-lg text-blue-900">
-                  {note.title || <span className="italic text-gray-400">[Untitled]</span>}
+        {/* EDIT MODAL */}
+        <EditModal
+          isOpen={editModalOpen}
+          onClose={() => setEditModalOpen(false)}
+          note={editNote}
+          onUpdate={handleUpdate}
+          updating={updating}
+        />
+
+        <h3 className="text-2xl font-bold mb-4 light:text-black-800 dark:text-black-800 tracking-tight flex items-center gap-2">
+          📚 Saved Notes
+        </h3>
+
+        {loading && <div className="my-4 text-blue-400">Loading...</div>}
+
+        {!loading && notesList.length === 0 && (
+          <div className="text-gray-400 italic my-6">No notes found.</div>
+        )}
+
+        {!loading && notesList.length > 0 && (
+          <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+            {notesList.map(note => (
+              <li
+                key={note.id}
+                className="flex flex-col sm:flex-row sm:items-center justify-between py-4"
+              >
+                <div className="flex-1">
+                  <div className="font-semibold text-lg text-blue-900 dark:text-blue-900">
+                    {note.title || <span className="italic text-gray-400">[Untitled]</span>}
+                  </div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">{note.created_at}</div>
                 </div>
-                <div className="text-sm text-gray-500">{note.created_at}</div>
-              </div>
-              <div className="mt-2 sm:mt-0 flex gap-2">
-                <button
-                  className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 transition font-semibold"
-                  onClick={() => handleView(note)}
-                >View</button>
-                <button
-                  className="bg-yellow-400 text-gray-900 px-4 py-1 rounded hover:bg-yellow-500 transition font-semibold"
-                  onClick={() => handleEdit(note)}
-                >Edit</button>
-                <button
-                  className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition font-semibold"
-                  onClick={() => handleDelete(note.id)}
-                  disabled={deletingId === note.id}
-                >
-                  {deletingId === note.id ? "Deleting..." : "Delete"}
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      }
+                <div className="mt-2 sm:mt-0 flex gap-2">
+                  <button
+                    className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 transition font-semibold"
+                    onClick={() => handleView(note)}
+                  >View</button>
+                  <button
+                    className="bg-yellow-400 text-gray-900 px-4 py-1 rounded hover:bg-yellow-500 transition font-semibold"
+                    onClick={() => handleEdit(note)}
+                  >Edit</button>
+                  <button
+                    className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition font-semibold"
+                    onClick={() => handleDelete(note.id)}
+                    disabled={deletingId === note.id}
+                  >
+                    {deletingId === note.id ? "Deleting..." : "Delete"}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

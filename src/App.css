@@ -1,27 +1,73 @@
 @import "tailwindcss";
-/* Light theme (default) */
+
+/* ========== Global Body Styles ========== */
+body {
+  color: #333333;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 body.light {
   background-color: #ffffff;
   color: #000000;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark theme */
 body.dark {
   background-color: #121217;
   color: #ffffff;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Navbar styles for both themes */ 
- body.light .navbar {
+/* ========== Navbar Styles ========== */
+body.light .navbar {
   background-color: #f5f5f5;
   border-bottom: 1px solid #e0e0e0;
-} 
+}
 
 body.dark .navbar {
   background-color: #1e1e1e;
   border-bottom: 1px solid #333;
 }
 
+/* ========== Wrapper Transitions Common ========== */
+.notes-wrapper,
+.library-wrapper,
+.saved-wrapper {
+  transition: background-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
 
+/* ========== Light Mode Section Backgrounds ========== */
+body.light .notes-wrapper,
+body.light .library-wrapper,
+body.light .saved-wrapper {
+  background: linear-gradient(to bottom right, #eaf4ff, #ffffff);
+}
+
+/* ========== Dark Mode Section Backgrounds ========== */
+body.dark .notes-wrapper,
+body.dark .library-wrapper,
+body.dark .saved-wrapper {
+  background: linear-gradient(to bottom right, #1d1f2b, #121217);
+}
+
+
+.section-wrapper {
+  transition: background 0.3s ease, color 0.3s ease;
+  min-height: 100vh; /* ensures section covers full viewport */
+}
+
+/* Light mode unified background */
+body.light .section-wrapper {
+  background: linear-gradient(to bottom right, #eaf4ff, #ffffff); /* or your preferred colors */
+  color: #1a1a1a;
+}
+
+/* Dark mode unified background */
+body.dark .section-wrapper {
+  background: linear-gradient(to bottom right, #1d1f2b, #121217);
+  color: #f8f8ff;
+}
+
+.saved-card {
+  background-color: #ffffff !important;
+  color: #1a1a1a !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
