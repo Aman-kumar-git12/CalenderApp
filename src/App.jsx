@@ -29,6 +29,8 @@ const Layout = () => {
     <>
       <Navbar dark={dark} setDark={setDark}/>
       <Outlet />
+
+     
     </>
   );
 };
