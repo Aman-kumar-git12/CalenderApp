@@ -84,6 +84,7 @@ const SavedNotes = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editNote, setEditNote] = useState({});
   const [updating, setUpdating] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(""); // ✅ Added
 
   const fetchNotes = async () => {
     setLoading(true);
@@ -143,6 +144,11 @@ const SavedNotes = () => {
       fetchNotes();
     }
   };
+  notesList.filter(note =>  // ✅ Added
+   (note.title || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+   (note.content || "").toLowerCase().includes(searchQuery.toLowerCase())
+ );
+
 
   return (
     <div className="section-wrapper py-10 px-4 flex justify-center items-start min-h-screen">
@@ -166,6 +172,16 @@ const SavedNotes = () => {
         <h3 className="text-2xl font-bold mb-4 light:text-black-800 dark:text-black-800 tracking-tight flex items-center gap-2">
           📚 Saved Notes
         </h3>
+
+
+        {/* ✅ Search Input */}
+        <input
+          type="text"
+          placeholder="Search notes..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full mb-6 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  dark:text-black dark:border-gray-600"
+        />
 
         {loading && <div className="my-4 text-blue-400">Loading...</div>}
 

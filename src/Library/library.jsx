@@ -5,6 +5,7 @@ import { supabase } from "../supabaseClient";
 export default function Library() {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Fetch all favorite book IDs on component mount
   useEffect(() => {
@@ -13,13 +14,12 @@ export default function Library() {
         const { data, error } = await supabase
           .from("favourites")
           .select("book_id");
-        
+
         if (error) {
           console.error("Error fetching favourites:", error.message);
           setFavorites([]);
         } else {
-          // Convert all book_ids to strings for consistent comparison
-          const favoriteIds = (data || []).map(fav => String(fav.book_id));
+          const favoriteIds = (data || []).map((fav) => String(fav.book_id));
           setFavorites(favoriteIds);
         }
       } catch (error) {
@@ -33,15 +33,12 @@ export default function Library() {
     fetchFavorites();
   }, []);
 
-  // Check if a book is already favorited
-  const isFavorite = (bookId) => {
-    return favorites.includes(String(bookId));
-  };
+  const isFavorite = (bookId) => favorites.includes(String(bookId));
 
   // Handle heart click for toggle functionality
   const toggleFavorite = async (book) => {
     const bookIdString = String(book.id);
-    
+
     try {
       if (isFavorite(book.id)) {
         // Remove from favorites
@@ -56,8 +53,7 @@ export default function Library() {
           return;
         }
 
-        // Update local state
-        setFavorites(favorites.filter((id) => id !== bookIdString));
+        setFavorites((prev) => prev.filter((id) => id !== bookIdString));
       } else {
         // Add to favorites
         const favoriteData = {
@@ -79,8 +75,7 @@ export default function Library() {
           return;
         }
 
-        // Update local state
-        setFavorites([...favorites, bookIdString]);
+        setFavorites((prev) => [...prev, bookIdString]);
       }
     } catch (error) {
       console.error("Toggle favorite error:", error);
@@ -88,110 +83,78 @@ export default function Library() {
     }
   };
 
+  const filteredBooks = dummyBooks.filter((book) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      book.title.toLowerCase().includes(query) ||
+      book.author.toLowerCase().includes(query) ||
+      book.language.toLowerCase().includes(query)
+    );
+  });
+
   if (loading) {
     return (
-      <div style={{ 
-        maxWidth: 700, 
-        margin: "40px auto", 
-        padding: 30, 
-        textAlign: "center" 
-      }}>
+      <div className="max-w-3xl mx-auto mt-10 p-8 text-center text-xl font-semibold">
         Loading library...
       </div>
     );
   }
 
   return (
-    <div style={{
-      maxWidth: 700,
-      margin: "40px auto",
-      background: "#f6fbff",
-      borderRadius: 20,
-      padding: 30,
-      boxShadow: "0 2px 16px #00c0ff11"
-    }}>
-      <h2 style={{ 
-        fontSize: 32, 
-        fontWeight: 900, 
-        marginBottom: 30, 
-        color: "#1456A3" 
-      }}>
+    <div className="max-w-3xl mx-auto my-10 bg-[#f6fbff] rounded-2xl p-8 shadow-xl">
+      <h2 className="text-3xl font-extrabold mb-6 text-[#1456A3]">
         📚 Programming Books & Notes Library
       </h2>
-      
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {dummyBooks.map((book) => {
+
+      {/* Search Bar */}
+      <input
+        type="text"
+        placeholder="Search by title, author, or language..."
+        className="w-full mb-6 px-4 py-2 rounded-lg border text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+
+      <ul className="list-none p-0 space-y-5">
+        {filteredBooks.map((book) => {
           const isBookFavorite = isFavorite(book.id);
+
           return (
             <li
               key={book.id}
-              style={{
-                margin: "20px 0",
-                padding: 16,
-                borderRadius: 11,
-                background: "#fff",
-                boxShadow: "0 1px 5px #0001",
-                fontSize: 18,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
+              className="p-4 rounded-xl bg-white shadow-md flex justify-between items-start gap-4"
             >
-              <div>
-                <div style={{
-                  display: "flex",
-                  alignItems: "center",
-                  fontWeight: 700,
-                  fontSize: 21,
-                  color: "#1761a7"
-                }}>
+              <div className="flex-1">
+                <div className="flex items-center font-bold text-xl text-[#1761a7]">
                   {book.title}
                   &nbsp;
                   <span
                     onClick={() => toggleFavorite(book)}
                     title={
-                      isBookFavorite 
-                        ? "Remove from favourites" 
+                      isBookFavorite
+                        ? "Remove from favourites"
                         : "Add to favourites"
                     }
-                    style={{
-                      cursor: "pointer",
-                      fontSize: 22,
-                      color: isBookFavorite ? "#ff4757" : "#ddd",
-                      userSelect: "none",
-                      transition: "color 0.3s ease, transform 0.2s ease",
-                      marginLeft: 8
-                    }}
+                    className={`ml-2 cursor-pointer text-2xl select-none transition duration-300 ${
+                      isBookFavorite ? "text-red-500" : "text-gray-300"
+                    }`}
                   >
                     ♥
                   </span>
                 </div>
-                <div style={{
-                  marginBottom: 6,
-                  fontSize: 14,
-                  color: "#4a6584"
-                }}>
+                <div className="text-sm text-[#4a6584] mb-1">
                   <b>Language:</b> {book.language} &nbsp;|&nbsp;
                   <b>Author:</b> {book.author}
                 </div>
-                <div style={{ fontSize: 15, color: "#555" }}>
+                <div className="text-base text-gray-700">
                   {book.description}
                 </div>
               </div>
               <button
-                style={{
-                  padding: "8px 18px",
-                  background: "#1475fc",
-                  color: "#fff",
-                  border: "none",
-                  fontWeight: 700,
-                  borderRadius: 6,
-                  marginLeft: 18,
-                  cursor: "pointer",
-                  fontSize: 16,
-                  boxShadow: "0 1px 4px #1475fc15"
-                }}
-                onClick={() => window.open(book.url, "_blank", "noreferrer")}
+                onClick={() =>
+                  window.open(book.url, "_blank", "noopener,noreferrer")
+                }
+                className="px-4 py-2 bg-blue-600 text-white font-bold rounded-md text-sm hover:bg-blue-700 transition shadow-md"
               >
                 View Notes
               </button>
