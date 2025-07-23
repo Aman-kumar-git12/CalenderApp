@@ -11,7 +11,7 @@ import Navbar from './Navbar/nav.jsx';
 import Notes from './Notes/notes.jsx';
 import SavedDocuments from './Saved/saved.jsx';
 import NotesLibrary from './Library/library.jsx';
-import Favourite from './Favourite/Favourite.jsx';
+import Favourite from './Favourite/favourite.jsx';
 
 const Layout = () => {
   const [dark, setDark] = React.useState(
