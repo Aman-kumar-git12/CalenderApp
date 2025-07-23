@@ -5,7 +5,7 @@ import MaterialUISwitchOnly from "./ThemeToggle";
 
 
 const Navbar = ({ dark, setDark }) => (
-  <div className=" navbar h-19 flex justify-between items-center">
+  <div className=" navbar h-18 flex justify-between items-center">
     <div className="p-4 pt-8 w-20 nav-left flex items-center">
       <HamburgerMenu />
     </div>

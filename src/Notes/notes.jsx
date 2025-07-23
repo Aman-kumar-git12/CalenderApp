@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 // Import your Supabase client
 import { supabase } from '../supabaseClient'; // adjust path as needed
-import Clear from '../Buttons/Clear/clear';   // still using your Clear button
+import Clear from '../Buttons/clear';   // still using your Clear button
 
 const Notes = () => {
   const [title, setTitle] = useState("");
