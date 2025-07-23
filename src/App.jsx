@@ -13,11 +13,6 @@ import SavedDocuments from './Saved/saved.jsx';
 import NotesLibrary from './Library/library.jsx';
 import Favourite from './Favourite/Favourite.jsx';
 
-
-
-
-
-
 const Layout = () => {
   const [dark, setDark] = React.useState(
     () => localStorage.getItem('theme') === 'dark'
