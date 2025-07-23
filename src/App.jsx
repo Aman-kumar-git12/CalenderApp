@@ -7,11 +7,11 @@ import {
   Outlet,
 } from 'react-router-dom';
 
-import Navbar from './Navbar/nav';
-import Notes from './Notes/notes';
-import SavedDocuments from './Saved/saved';
-import NotesLibrary from './Library/library';
-import Favourite from './Favourite/Favourite';
+import Navbar from './Navbar/nav.jsx';
+import Notes from './Notes/notes.jsx';
+import SavedDocuments from './Saved/saved.jsx';
+import NotesLibrary from './Library/library.jsx';
+import Favourite from './Favourite/Favourite.jsx';
 
 
 
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
       { path: '/', element: <Notes /> },
       { path: '/saved', element: <SavedDocuments /> },
       { path: '/library', element: <NotesLibrary /> },
-      { path: '/favourite',element:<Favourite/> }
+      { path: '/Favourite',element:<Favourite/> }
 
     ]
   }
