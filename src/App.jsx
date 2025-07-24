@@ -12,6 +12,8 @@ import Notes from './Notes/notes.jsx';
 import SavedDocuments from './Saved/saved.jsx';
 import NotesLibrary from './Library/library.jsx';
 import Favourite from './Favourite/Fav.jsx';
+import Home from './Home/home.jsx';
+
 
 const Layout = () => {
   const [dark, setDark] = React.useState(
@@ -25,6 +27,7 @@ const Layout = () => {
 
   return (
     <>
+
       <Navbar dark={dark} setDark={setDark}/>
       <Outlet />
 
@@ -38,12 +41,11 @@ const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { path: '/', element: <Notes /> },
-      { path: '/saved', element: <SavedDocuments /> },
-      { path: '/library', element: <NotesLibrary /> },
-      { path: '/favourite',element:<Favourite/>
-       }
-
+      { path: '/', element: <Home /> },             // Load Home first
+      { path: '/notes', element: <Notes /> },       // Move Notes to /notes
+      { path: '/saved', element: <SavedDocuments /> }, // Move Saved to /saved
+      { path: '/library', element: <NotesLibrary /> }, // Move Library to /library
+      { path: '/favourite', element: <Favourite /> }  // Move Favourite to /favourite
     ]
   }
 ]);

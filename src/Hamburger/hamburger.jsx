@@ -8,7 +8,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import "./hamburger.css";
 import { Link } from "react-router-dom";
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const SidebarMenu = () => {
   const [open, setOpen] = useState(false);
@@ -28,7 +27,8 @@ const SidebarMenu = () => {
           <MenuIcon className="menu-icon" onClick={toggleSidebar} />
         </div>
 
-        <Link to="/"><NoteAddIcon /> New Notes</Link>
+        <Link to="/"><SaveIcon /> Home</Link>
+        <Link to="/notes"><NoteAddIcon /> New Notes</Link>
         <Link to="/saved"><SaveIcon /> Saved</Link>
         <Link to="/library"><LibraryBooksIcon /> Library</Link>
         <Link to="/favourite"><FavoriteIcon /> Favourite</Link>
