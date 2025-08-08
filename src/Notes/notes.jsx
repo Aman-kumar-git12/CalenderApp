@@ -20,27 +20,33 @@ const Notes = () => {
 
   // All save logic is here:
   const handleSave = async () => {
-    if (!notes.trim() && !title.trim()) {
+    const trimmedTitle = title.trim();
+    const trimmedContent = notes.trim();
+
+    if (!trimmedContent && !trimmedTitle) {
       alert("Enter a title or a note to save.");
       return;
     }
+
     setSaving(true);
     const { error } = await supabase
       .from('notes')
       .insert([
         {
-          title: title.trim() || null,
-          content: notes.trim()
+          title: trimmedTitle || null,
+          content: trimmedContent
           // id and created_at are automatic
         }
       ]);
     setSaving(false);
+
     if (error) {
       alert("Error saving note: " + error.message);
-    } else {
-      alert("Note saved!");
-      handleClear();
+      return;
     }
+
+    alert("Note saved!");
+    handleClear();
   };
 
   return (

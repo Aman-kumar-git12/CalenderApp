@@ -144,10 +144,10 @@ const SavedNotes = () => {
       fetchNotes();
     }
   };
-  notesList.filter(note =>  // ✅ Added
-   (note.title || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-   (note.content || "").toLowerCase().includes(searchQuery.toLowerCase())
- );
+  const filteredNotes = notesList.filter((note) =>
+    (note.title || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (note.content || "").toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
 
   return (
@@ -185,13 +185,13 @@ const SavedNotes = () => {
 
         {loading && <div className="my-4 text-blue-400">Loading...</div>}
 
-        {!loading && notesList.length === 0 && (
+        {!loading && filteredNotes.length === 0 && (
           <div className="text-gray-400 italic my-6">No notes found.</div>
         )}
 
-        {!loading && notesList.length > 0 && (
+        {!loading && filteredNotes.length > 0 && (
           <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-            {notesList.map(note => (
+            {filteredNotes.map(note => (
               <li
                 key={note.id}
                 className="flex flex-col sm:flex-row sm:items-center justify-between py-4"
